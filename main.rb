@@ -18,11 +18,16 @@
     
 =end
 
-class Board; end
+class Board
+    def initialize
+        @larger_board_array = Array.new(4, Array.new(4,'.  '))
+        
+    end
+end
 
-class KeyPeg; end
 
-class CodePeg; end
+
+class Peg; end
 
 class Color; end # check if there is anything built-in
 
