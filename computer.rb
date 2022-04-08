@@ -4,6 +4,7 @@ class Computer
   include ChangeUnit
 
   attr_accessor :guess
+  attr_reader :set
 
   def initialize
     @set = ('1111'..'6666').to_a
@@ -41,7 +42,6 @@ class Computer
   end
 
   def different_response_purge(feedback)
-    feedback.delete(nil)
     index = 0
     until @set[index] == nil
       unless @set[index] == nil
@@ -54,6 +54,7 @@ class Computer
         end
         index += 1
       end
+      ChangeUnit.set_feedback = []
     end
     @set
   end
