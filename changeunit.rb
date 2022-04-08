@@ -31,7 +31,6 @@ module ChangeUnit
   def self.get_and_rectify_input
     gets.chomp.strip
               .delete(":[]''")
-              .strip
               .split(',')
               .map(&:strip)
               .map(&:to_sym)
@@ -43,7 +42,11 @@ module ChangeUnit
   end
 
   def self.the_six_colors
-      [:red,:magenta,:yellow,:green,:blue,:cyan]
+    [:red,:magenta,:yellow,:green,:blue,:cyan]
+  end
+
+  def self.feedback_colors
+    [:white,:red]
   end
 
   def self.show_colors(with_sentence = false)
