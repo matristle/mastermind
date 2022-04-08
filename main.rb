@@ -54,13 +54,15 @@ elsif sides_answer.downcase.include?('breaker')
     hidden_code.check_for_similarities(board.larger_board_array[index])
     ChangeUnit.change_array_color(hidden_code.feedback_array, board.side_board_array[index], false)
     board.show
-    if hidden_code.feedback_array.count(:red) == 4 
+
+    four_reds = hidden_code.feedback_array.count(:red) == 4
+    if four_reds 
       board.unknown_code_array = board.larger_board_array[index]
       board.show
       puts "Code cracked!"
       sleep 2.5
       board.fun!
-    elsif board.larger_board_array[index] == board.larger_board_array.length && hidden_code.feedback_array.count(:red) != 4 
+    elsif board.larger_board_array[index] == board.larger_board_array.length && !four_reds 
       board.unknown_code_array = hidden_code.code_array
       puts 'Better luck on your next try!'
     end
