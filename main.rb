@@ -6,22 +6,22 @@ require_relative 'board'
 require_relative 'computer'
 
 puts 'So, do you want to be the Code Breaker, or Code Maker?'
-sides_answer = gets.chomp
+breaker_or_maker_answer = gets.chomp
 
-if sides_answer.downcase.include?('maker')
+if breaker_or_maker_answer.downcase.include?('maker')
   puts 'Okay! Code Maker it is.'
   puts 'Make your color code guess like so: color1, color2, color3, color4 (repetition is allowed)'
   ChangeUnit.show_colors
   your_chosen_color_code = ChangeUnit.get_and_rectify_input
   board = Board.new('maker', your_chosen_color_code)
-  comp = Computer.new
+  computer = Computer.new
 
   board.larger_board_array.each_index do |index|
     if index.zero?
-      comp.guess = Computer.num_to_color('1122')
-      ChangeUnit.change_array_color(comp.guess, board.larger_board_array[index], true) 
+      computer.guess = Computer.number_to_color('1122')
+      ChangeUnit.change_array_color(computer.guess, board.larger_board_array[index], true) 
     else
-      ChangeUnit.change_array_color(comp.pick_first, board.larger_board_array[index], true) 
+      ChangeUnit.change_array_color(computer.pick_first, board.larger_board_array[index], true) 
     end
     board.show
     puts 'Give a feedback array using this format: color1, color2, color3, color4 (repetition is allowed) '
@@ -36,10 +36,10 @@ if sides_answer.downcase.include?('maker')
       print "\n"
       break
     else
-      comp.diff_response_purge(your_feedback_array)
+      computer.different_response_purge(your_feedback_array)
     end
   end
-elsif sides_answer.downcase.include?('breaker')
+elsif breaker_or_maker_answer.downcase.include?('breaker')
   puts "Let's break some code!"
   puts 'Make your color code guess like so: color1, color2, color3, color4 (repetition is allowed)'
   ChangeUnit.show_colors
@@ -47,7 +47,7 @@ elsif sides_answer.downcase.include?('breaker')
   board = Board.new('breaker')
   board.show
   board.larger_board_array.each_index do |index|
-    puts 'Enter color combo array using this format: color1, color2, color3, color4 (repetition is allowed)'
+    puts 'Enter color sequence using this format: color1, color2, color3, color4 (repetition is allowed)'
     print "\n"
     choice_array = ChangeUnit.get_and_rectify_input
     print "\n"

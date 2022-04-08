@@ -1,14 +1,14 @@
 require 'colorize'
 
 module ChangeUnit
-  @@f_array = []
+  @@feedback_array = []
 
   def self.get_other_feedback
-    @@f_array
+    @@feedback_array
   end
 
-  def self.set_feedback=(feed)
-    @@f_array = feed
+  def self.set_feedback=(feedback_array)
+    @@feedback_array = feedback_array
   end
 
   def self.change_array_color(change_combo_array, dot_array, main_peg_mode)
@@ -38,7 +38,7 @@ module ChangeUnit
   end
 
   def self.show_dots(dot_array)
-    dot_array.each {|dot| print "#{dot}\s"}
+    dot_array.each { |dot| print "#{dot}\s" }
     print "\n"
   end
 
@@ -46,41 +46,41 @@ module ChangeUnit
       [:red,:magenta,:yellow,:green,:blue,:cyan]
   end
 
-  def self.show_colors(without_sentence = '')
-    puts 'The available colors are:' if without_sentence == 'without sentence'
+  def self.show_colors(with_sentence = false)
+    puts 'The available colors are:' if with_sentence
     ChangeUnit.the_six_colors.each { |color| print color.to_s; print "\n" }
   end
 
-  def self.make_other_feedback(yc_array, cc_array, f_array = [])
-    temp_yc = []
-    temp_cc = [] 
+  def self.make_other_feedback(your_code, set_element_code)
+    @@feedback = []
+    your_code_clone = []
+    set_element_code_clone = [] 
 
-    yc_array.each_with_index { |element, index| temp_yc[index] = element }
-    cc_array.each_with_index { |element, index| temp_cc[index] = element }
+    your_code.each_with_index { |element, index| your_code_clone[index] = element }
+    set_element_code.each_with_index { |element, index| set_element_code_clone[index] = element }
 
-    temp_cc.length.times do |index|
-      if temp_yc[index] == temp_cc[index] && !(temp_yc[index].nil? || temp_cc[index].nil?)
-        f_array.push(:red) 
-        temp_yc[index] = nil
-        temp_cc[index] = nil
+    set_element_code_clone.length.times do |index|
+      if your_code_clone[index] == set_element_code_clone[index] && !(your_code_clone[index].nil? || set_element_code_clone[index].nil?)
+        @@feedback_array.push(:red) 
+        your_code_clone[index] = nil
+        set_element_code_clone[index] = nil
       end
     end
 
-    temp_yc.each_with_index do |choice_el, index|
-      temp_cc.each_with_index do |code_el, ind|
-        if choice_el == code_el && !(choice_el.nil? || code_el.nil?)
-          f_array.push(:white)
-          temp_yc[index] = nil
-          temp_cc[ind] = nil
+    your_code_clone.each_with_index do |choice_element, index|
+      set_element_code_clone.each_with_index do |code_element, ind|
+        if choice_element == code_element && !(choice_element.nil? || code_element.nil?)
+          @@feedback_array.push(:white)
+          your_code_clone[index] = nil
+          set_element_code_clone[ind] = nil
         end
       end
     end
-    ChangeUnit.set_feedback = f_array
   end
   
   def fun!
     loop do
-      fun_array = Array.new(Random.rand(40).floor, '.'.colorize(String.colors.sample))
+      fun_array = Array.new(Random.rand(60).floor, '.'.colorize(String.colors.sample))
       fun_array.each { |dot| print dot }
       print "\n"
     end

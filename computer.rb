@@ -7,18 +7,20 @@ class Computer
 
   def initialize
     @set = ('1111'..'6666').to_a
-    @set.each_index do |index|  
-      if @set[index].include?('0') || @set[index].include?('7') || @set[index].include?('8') || @set[index].include?('9')
+    @set.each_index do |index| 
+      set_includes_numbers_that_are_not_wanted = @set[index].include?('0') || @set[index].include?('7') || @set[index].include?('8') || @set[index].include?('9') 
+
+      if set_includes_numbers_that_are_not_wanted
         @set[index] = nil
       end
     end
     @set.delete(nil)
-    @f_array = Array.new(4, '')
+    @feedback_array = Array.new(4, '')
     @color_code = ''
     @guess = ''
   end
 
-  def self.num_to_color(guess)
+  def self.number_to_color(guess)
     guess.split('').each do |number|
       case number
       when '1'
@@ -38,19 +40,19 @@ class Computer
     guess.split(',').map(&:to_sym)
   end
 
-  def diff_response_purge(feedback)
+  def different_response_purge(feedback)
     feedback.delete(nil)
-    ind = 0
-    until @set[ind] == nil
-      unless @set[ind] == nil
-        @color_code = Computer.num_to_color(@set[ind])
+    index = 0
+    until @set[index] == nil
+      unless @set[index] == nil
+        @color_code = Computer.number_to_color(@set[index])
         ChangeUnit.make_other_feedback(@guess, @color_code)
         @color_code.delete(nil)
         unless ChangeUnit.get_other_feedback.sort == feedback.sort
-          @set.delete_at(ind) 
-          ind -= 1
+          @set.delete_at(index) 
+          index -= 1
         end
-        ind += 1
+        index += 1
       end
     end
     @set

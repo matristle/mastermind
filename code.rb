@@ -1,5 +1,3 @@
-require 'colorize'
-
 require_relative 'changeunit'
 
 class Code
@@ -8,41 +6,38 @@ class Code
   attr_reader :code_color_array, :code_array
 
   def initialize
-    @code_array = Array.new(4,'.')
-    @code_color_array = []
-    @feedback_array = []
+    @code_array = Array.new(4,'.') # ['colored point 1', 'colored point 2', 'colored point 3', 'colored point 4']
+    @code_color_array = [] # [color 1, color 2, color 3, color 4]
+    @feedback_array = [] # [:red, :white, :white, :red]
     4.times { @code_color_array.push(ChangeUnit.the_six_colors.sample) }
     ChangeUnit.change_array_color(@code_color_array, @code_array, true)
   end
 
   def check_for_similarities(main_peg_row_array)
-    temp_mpr = []
-    temp_c = []
+    main_peg_row_array_clone = main_peg_row_array.clone 
+    code_array_clone = @code_array.clone
 
-    main_peg_row_array.each_with_index { |element, index| temp_mpr[index] = element }
-    @code_array.each_with_index {|element, index| temp_c[index] = element}
-
-    temp_c.length.times do |index|
-      if temp_mpr[index] == temp_c[index] && !(temp_mpr[index].nil? || temp_c[index].nil?)
+    code_array_clone.length.times do |index|
+      if main_peg_row_array_clone[index] == code_array_clone[index] && !(main_peg_row_array_clone[index].nil? || code_array_clone[index].nil?)
         @feedback_array.push(:red)
-        temp_mpr[index] = nil
-        temp_c[index] = nil
+        main_peg_row_array_clone[index] = nil
+        code_array_clone[index] = nil
       end
     end
 
-    temp_mpr.each_with_index do |choice_el, index|
-      temp_c.each_with_index do |code_el, ind|
-        if choice_el == code_el && !(choice_el.nil? || code_el.nil?)
+    main_peg_row_array_clone.each_with_index do |choice_element, choice_index|
+      code_array_clone.each_with_index do |code_element, code_index|
+        if choice_element == code_element && !(choice_element.nil? || code_element.nil?)
           @feedback_array.push(:white)
-          temp_mpr[index] = nil
-          temp_c[ind] = nil
+          main_peg_row_array_clone[choice_index] = nil
+          code_array_clone[code_index] = nil
         end
       end
     end
   end
   
   def show_code
-    @code_array.each {|dot| print "#{dot}\s"}
+    @code_array.each { |dot| print "#{dot}\s" }
     print "\n"
   end
 end
