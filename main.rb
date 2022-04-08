@@ -5,14 +5,37 @@ require_relative 'code'
 require_relative 'board'
 require_relative 'computer'
 
-puts 'So, do you want to be the Code Breaker, or Code Maker?'
-breaker_or_maker_answer = gets.chomp
+puts "\s\sSo, do you want to be the Code Breaker, or Code Maker?"
+
+while "The user doesn't include a valid mode"
+  breaker_or_maker_answer = gets.chomp
+
+  if breaker_or_maker_answer.downcase.include?('breaker') || breaker_or_maker_answer.downcase.include?('maker')
+    break
+  else
+    puts "\s\sPlease mention the mode that you want to play in (Code Breaker or Code Maker)"
+  end
+end
 
 if breaker_or_maker_answer.downcase.include?('maker')
-  puts 'Okay! Code Maker it is.'
-  puts 'Make your color code guess like so: color1, color2, color3, color4 (repetition is allowed)'
+  puts "\s\sOkay! Code Maker it is."
+  puts "\s\sMake your color code guess like so: color 1, color 2, color 3, color 4 (repetition is allowed)"
   ChangeUnit.show_colors
-  your_chosen_color_code = ChangeUnit.get_and_rectify_input
+  print "\n"
+  while "The user doesn't include a valid color code"
+    your_chosen_color_code = ChangeUnit.get_and_rectify_input
+    colors_with_string_elements = ChangeUnit.the_six_colors.map(&:to_s)
+    your_chosen_color_code_with_string_elements = your_chosen_color_code.map(&:to_s)
+
+    if your_chosen_color_code_with_string_elements.all?{ |color| colors_with_string_elements.include?(color) } 
+      break
+    else
+      puts "\s\sFollow this format using the available six colors: color 1,color 2,color 3,color 4 (repetition is allowed)"
+      ChangeUnit.show_colors
+      print "\n"
+    end
+  end
+
   board = Board.new('maker', your_chosen_color_code)
   computer = Computer.new
 
@@ -24,8 +47,17 @@ if breaker_or_maker_answer.downcase.include?('maker')
       ChangeUnit.change_array_color(computer.pick_first, board.larger_board_array[index], true) 
     end
     board.show
-    puts 'Give a feedback array using this format: color1, color2, color3, color4 (repetition is allowed) '
-    your_feedback_array = ChangeUnit.get_and_rectify_input
+    puts 'Give feedback using this format: color1, color2, color3, color4 (repetition is allowed)'
+    while "The user doesn't include a valid feedback"
+      your_feedback_array = ChangeUnit.get_and_rectify_input
+      if your_feedback_array.all?{ |feedback_color| ChangeUnit.feedback_colors.include?(feedback_color) } 
+        break
+      else
+        print "\n"
+        puts "\s\sFollow this format using the available six colors: color 1,color 2,color 3,color 4 (repetition is allowed)"
+        ChangeUnit.show_colors
+      end
+    end
     print "\n"
     ChangeUnit.change_array_color(your_feedback_array, board.side_board_array[index], false)
     board.show
@@ -34,22 +66,33 @@ if breaker_or_maker_answer.downcase.include?('maker')
     if four_reds
       puts '¯\_(ツ)_/¯ Computer guessed your code ¯\_(ツ)_/¯'
       print "\n"
+      sleep 7
+      puts '...or you gave 4 reds for the wrong code ;)'
       break
     else
       computer.different_response_purge(your_feedback_array)
     end
   end
 elsif breaker_or_maker_answer.downcase.include?('breaker')
-  puts "Let's break some code!"
-  puts 'Make your color code guess like so: color1, color2, color3, color4 (repetition is allowed)'
+  puts "\s\sLet's break some code!"
   ChangeUnit.show_colors
   hidden_code = Code.new
   board = Board.new('breaker')
   board.show
   board.larger_board_array.each_index do |index|
-    puts 'Enter color sequence using this format: color1, color2, color3, color4 (repetition is allowed)'
-    print "\n"
-    choice_array = ChangeUnit.get_and_rectify_input
+    puts "\s\sEnter a color sequence to guess the code using this format: color 1, color 2, color 3, color 4 (repetition is allowed)"
+    while "The user doesn't include a valid color sequence"
+      choice_array = ChangeUnit.get_and_rectify_input
+      colors_with_string_elements = ChangeUnit.the_six_colors.map(&:to_s)
+      choice_array_with_string_elements = choice_array.map(&:to_s)
+      if choice_array_with_string_elements.all?{ |color| colors_with_string_elements.include?(color) } 
+        break
+      else
+        print "\n"
+        puts "\s\sFollow this format using the available six colors: color 1,color 2,color 3,color 4 (repetition is allowed)"
+        ChangeUnit.show_colors
+      end
+    end
     print "\n"
     ChangeUnit.change_array_color(choice_array, board.larger_board_array[index], true)
     hidden_code.check_for_similarities(board.larger_board_array[index])
@@ -71,7 +114,7 @@ elsif breaker_or_maker_answer.downcase.include?('breaker')
 end
 
 board.show
-puts 'Better luck on your next try!'
+puts 'Thank you for playing my Mastermind!'
 
 
 
