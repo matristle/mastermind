@@ -11,7 +11,7 @@ module ChangeUnit
     @@f_array = feed
   end
 
-  def self.change_array_color(change_combo_array, dot_array = ['y','o','u','f'], main_peg_mode)
+  def self.change_array_color(change_combo_array, dot_array, main_peg_mode)
     if main_peg_mode
       change_combo_array.map!(&:to_s)
       change_combo_array.map!(&:to_sym)
@@ -38,6 +38,7 @@ module ChangeUnit
   end
 
   def self.show_colors
+    puts 'The available colors are:'
     ChangeUnit.the_six_colors.each { |color| print color.to_s; print "\n" }
   end
 
