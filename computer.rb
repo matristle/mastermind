@@ -1,5 +1,3 @@
-require 'colorize'
-
 require_relative 'changeunit'
 
 class Computer
@@ -9,7 +7,7 @@ class Computer
 
   def initialize
     @set = ('1111'..'6666').to_a
-    @set.each_with_index do |_, index|  
+    @set.each_index do |index|  
       if @set[index].include?('0') || @set[index].include?('7') || @set[index].include?('8') || @set[index].include?('9')
         @set[index] = nil
       end

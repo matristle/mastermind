@@ -16,7 +16,7 @@ if sides_answer.downcase.include?('maker')
   board = Board.new('maker', your_chosen_color_code)
   comp = Computer.new
 
-  board.larger_board_array.each_with_index do |_, index|
+  board.larger_board_array.each_index do |index|
     if index.zero?
       comp.guess = Computer.num_to_color('1122')
       ChangeUnit.change_array_color(comp.guess, board.larger_board_array[index], true) 
@@ -30,7 +30,8 @@ if sides_answer.downcase.include?('maker')
     ChangeUnit.change_array_color(your_feedback_array, board.side_board_array[index], false)
     board.show
 
-    if your_feedback_array.count(:red) == 4
+    four_reds = your_feedback_array.count(:red) == 4
+    if four_reds
       puts '¯\_(ツ)_/¯ Computer guessed your code ¯\_(ツ)_/¯'
       print "\n"
       break
@@ -45,7 +46,7 @@ elsif sides_answer.downcase.include?('breaker')
   hidden_code = Code.new
   board = Board.new('breaker')
   board.show
-  board.larger_board_array.each_with_index do |_, index|
+  board.larger_board_array.each_index do |index|
     puts 'Enter color combo array using this format: color1, color2, color3, color4 (repetition is allowed)'
     print "\n"
     choice_array = ChangeUnit.get_and_rectify_input
