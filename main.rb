@@ -11,14 +11,8 @@ sides_answer = gets.chomp
 if sides_answer.downcase.include?('maker')
   puts 'Okay! Code Maker it is.'
   puts 'Make your color code guess like so: color1, color2, color3, color4 (repetition is allowed)'
-  puts 'The available colors are:'
   ChangeUnit.show_colors
-  your_chosen_color_code = gets.chomp.strip
-  your_chosen_color_code.delete!(":[]''")
-  your_chosen_color_code.strip!
-  your_chosen_color_code = your_chosen_color_code.split(',')
-  your_chosen_color_code.map!(&:strip)
-  your_chosen_color_code.map!(&:to_sym)
+  your_chosen_color_code = ChangeUnit.get_and_rectify_input
   board = Board.new('maker', your_chosen_color_code)
   comp = Computer.new
 
@@ -31,12 +25,7 @@ if sides_answer.downcase.include?('maker')
     end
     board.show
     puts 'Give a feedback array using this format: color1, color2, color3, color4 (repetition is allowed) '
-    your_feedback_array = gets.chomp
-
-    your_feedback_array.delete! ":[]''"
-    your_feedback_array = your_feedback_array.split(',')
-    your_feedback_array.map!(&:strip)
-    your_feedback_array.map!(&:to_sym)
+    your_feedback_array = ChangeUnit.get_and_rectify_input
     print "\n"
     ChangeUnit.change_array_color(your_feedback_array, board.side_board_array[index], false)
     board.show
@@ -52,7 +41,6 @@ if sides_answer.downcase.include?('maker')
 elsif sides_answer.downcase.include?('breaker')
   puts "Let's break some code!"
   puts 'Make your color code guess like so: color1, color2, color3, color4 (repetition is allowed)'
-  puts 'The available colors are:'
   ChangeUnit.show_colors
   hidden_code = Code.new
   board = Board.new('breaker')
@@ -60,11 +48,7 @@ elsif sides_answer.downcase.include?('breaker')
   board.larger_board_array.each_with_index do |_, index|
     puts 'Enter color combo array using this format: color1, color2, color3, color4 (repetition is allowed)'
     print "\n"
-    choice_array = gets.chomp
-    choice_array.delete! ":[]''"
-    choice_array = choice_array.split(',')
-    choice_array.map!(&:strip)
-    choice_array.map!(&:to_sym)
+    choice_array = ChangeUnit.get_and_rectify_input
     print "\n"
     ChangeUnit.change_array_color(choice_array, board.larger_board_array[index], true)
     hidden_code.check_for_similarities(board.larger_board_array[index])

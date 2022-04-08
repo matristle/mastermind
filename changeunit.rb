@@ -28,6 +28,15 @@ module ChangeUnit
     dot_array
   end
 
+  def self.get_and_rectify_input
+    gets.chomp.strip
+              .delete(":[]''")
+              .strip
+              .split(',')
+              .map(&:strip)
+              .map(&:to_sym)
+  end
+
   def self.show_dots(dot_array)
     dot_array.each {|dot| print "#{dot}\s"}
     print "\n"
@@ -37,8 +46,8 @@ module ChangeUnit
       [:red,:magenta,:yellow,:green,:blue,:cyan]
   end
 
-  def self.show_colors
-    puts 'The available colors are:'
+  def self.show_colors(without_sentence = '')
+    puts 'The available colors are:' if without_sentence == 'without sentence'
     ChangeUnit.the_six_colors.each { |color| print color.to_s; print "\n" }
   end
 
