@@ -63,13 +63,15 @@ elsif breaker_or_maker_answer.downcase.include?('breaker')
       puts "Code cracked!"
       sleep 2.5
       board.fun!
-    elsif board.larger_board_array[index] == board.larger_board_array.length && !four_reds 
+    elsif board.larger_board_array[index] == board.larger_board_array[-1] && !four_reds 
       board.unknown_code_array = hidden_code.code_array
-      puts 'Better luck on your next try!'
     end
     hidden_code.feedback_array = []
   end
 end
 
 board.show
+puts 'Better luck on your next try!'
+
+
 
