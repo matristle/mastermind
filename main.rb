@@ -20,7 +20,7 @@ end
 if breaker_or_maker_answer.downcase.include?('maker')
   puts "\s\sOkay! Code Maker it is."
   puts "\s\sMake your color code guess like so: color 1, color 2, color 3, color 4 (repetition is allowed)"
-  ChangeUnit.show_colors
+  ChangeUnit.show_colors(ChangeUnit.the_six_colors)
   print "\n"
   while "The user doesn't include a valid color code"
     your_chosen_color_code = ChangeUnit.get_and_rectify_input
@@ -31,13 +31,30 @@ if breaker_or_maker_answer.downcase.include?('maker')
       break
     else
       puts "\s\sFollow this format using the available six colors: color 1,color 2,color 3,color 4 (repetition is allowed)"
-      ChangeUnit.show_colors
+      ChangeUnit.show_colors(ChangeUnit.the_six_colors)
       print "\n"
     end
   end
 
   board = Board.new('maker', your_chosen_color_code)
   computer = Computer.new
+  print "\n"
+  puts "The feedback rules:"
+  print "\n"
+  sleep 2
+  puts 'Red - if colors are in the same position of both sequences'
+  sleep 4
+  puts 'White - if colors are available in both sequences but not in the same position'
+  sleep 4
+  puts 'Leave empty - if the above conditions are not met'
+  sleep 6
+  print "\n"
+  puts "Following the first rule and the computer's goal being to guess the sequence, a feedback sequence of 4 Reds win the game"
+  sleep 4
+  puts "\n"
+  puts "\n"
+  puts "Those said, let's see if the computer can crack your code!"
+  print "\n"
 
   board.larger_board_array.each_index do |index|
     if index.zero?
@@ -47,15 +64,15 @@ if breaker_or_maker_answer.downcase.include?('maker')
       ChangeUnit.change_array_color(computer.pick_first, board.larger_board_array[index], true) 
     end
     board.show
-    puts 'Give feedback using this format: color1, color2, color3, color4 (repetition is allowed)'
+    puts 'Provide feedback using this format: color 1,color 2,color 3,color 4 (repetition is allowed and the order does not matter)'
     while "The user doesn't include a valid feedback"
       your_feedback_array = ChangeUnit.get_and_rectify_input
       if your_feedback_array.all?{ |feedback_color| ChangeUnit.feedback_colors.include?(feedback_color) } 
         break
       else
         print "\n"
-        puts "\s\sFollow this format using the available six colors: color 1,color 2,color 3,color 4 (repetition is allowed)"
-        ChangeUnit.show_colors
+        puts "\s\sFollow this format using the available six colors: color 1,color 2,color 3,color 4 (repetition is allowed and the order does not matter)"
+        ChangeUnit.show_colors(ChangeUnit.feedback_colors)
       end
     end
     print "\n"
@@ -74,8 +91,27 @@ if breaker_or_maker_answer.downcase.include?('maker')
     end
   end
 elsif breaker_or_maker_answer.downcase.include?('breaker')
-  puts "\s\sLet's break some code!"
-  ChangeUnit.show_colors
+  ChangeUnit.show_colors(ChangeUnit.the_six_colors)
+  print "\n"
+  puts "The feedback rules:"
+  print "\n"
+  sleep 2
+  puts 'Red - if colors are in the same position of both sequences'
+  sleep 4
+  puts 'White - if colors are available in both sequences but not in the same position'
+  sleep 4
+  puts 'Leave empty - if the above conditions are not met'
+  sleep 6
+  print "\n"
+  puts "Following the first rule and the computer's goal being to guess the sequence, a feedback sequence of 4 Reds win the game"
+  sleep 4
+  puts "\n"
+  puts "\n"
+  puts "\s\sReady to break some code? (Y/N)"
+  sleep 4
+  puts "Got you there! No input required! :D"
+  print "\n"
+  sleep 2
   hidden_code = Code.new
   board = Board.new('breaker')
   board.show
@@ -90,7 +126,7 @@ elsif breaker_or_maker_answer.downcase.include?('breaker')
       else
         print "\n"
         puts "\s\sFollow this format using the available six colors: color 1,color 2,color 3,color 4 (repetition is allowed)"
-        ChangeUnit.show_colors
+        ChangeUnit.show_colors(ChangeUnit.the_six_colors)
       end
     end
     print "\n"
