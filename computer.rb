@@ -8,17 +8,15 @@ class Computer
 
   def initialize
     @set = ('1111'..'6666').to_a
-    @set.each_index do |index| 
-      set_includes_numbers_that_are_not_wanted = @set[index].include?('0') || @set[index].include?('7') || @set[index].include?('8') || @set[index].include?('9') 
-
-      if set_includes_numbers_that_are_not_wanted
-        @set[index] = nil
-      end
-    end
-    @set.delete(nil)
+    unwanted_subset = @set.select { |number| set_includes_numbers_that_are_not_wanted?(number) }
+    @set = @set - unwanted_subset
     @feedback_array = Array.new(4, '')
     @color_code = ''
     @guess = ''
+  end
+
+  def set_includes_numbers_that_are_not_wanted?(number)
+    number.include?('0') || number.include?('7') || number.include?('8') || number.include?('9') 
   end
 
   def self.number_to_color(guess)
