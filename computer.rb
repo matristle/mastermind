@@ -23,17 +23,17 @@ class Computer
     guess.split('').each do |number|
       case number
       when '1'
-        guess.sub!(number,'red,')
+        guess.sub!(number, 'red,')
       when '2'
-        guess.sub!(number,'magenta,')
+        guess.sub!(number, 'magenta,')
       when '3'
-        guess.sub!(number,'yellow,')
+        guess.sub!(number, 'yellow,')
       when '4'
-        guess.sub!(number,'green,')
+        guess.sub!(number, 'green,')
       when '5'
-        guess.sub!(number,'blue,')
+        guess.sub!(number, 'blue,')
       when '6'
-        guess.sub!(number,'cyan,')
+        guess.sub!(number, 'cyan,')
       end
     end
     guess.split(',').map(&:to_sym)
@@ -41,8 +41,8 @@ class Computer
 
   def different_response_purge(feedback)
     index = 0
-    until @set[index] == nil
-      unless @set[index] == nil
+    until @set[index].nil?
+      unless @set[index].nil?
         @color_code = Computer.number_to_color(@set[index])
         ChangeUnit.make_other_feedback(@guess, @color_code)
         @color_code.delete(nil)
