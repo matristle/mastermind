@@ -49,9 +49,10 @@ module ChangeUnit
     [:white,:red]
   end
 
-  def self.show_colors(with_sentence = false)
+  def self.show_colors(code_or_feedback_colors, with_sentence = false)
     puts 'The available colors are:' if with_sentence
-    ChangeUnit.the_six_colors.each { |color| print color.to_s; print "\n" }
+    print "\n"
+    code_or_feedback_colors.each { |color| puts color.to_s; print "\n" }
   end
 
   def self.make_other_feedback(your_code, set_element_code)
@@ -80,7 +81,7 @@ module ChangeUnit
       end
     end
   end
-  
+
   def fun!
     loop do
       fun_array = Array.new(Random.rand(60).floor, '.'.colorize(String.colors.sample))
