@@ -8,8 +8,7 @@ class Computer
 
   def initialize
     @set = ('1111'..'6666').to_a
-    unwanted_subset = @set.select { |number| set_includes_numbers_that_are_not_wanted?(number) }
-    @set = @set - unwanted_subset
+    @set = @set.reject { |number| set_includes_numbers_that_are_not_wanted?(number) }
     @feedback_array = Array.new(4, '')
     @color_code = ''
     @guess = ''
