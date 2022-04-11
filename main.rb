@@ -49,7 +49,7 @@ if breaker_or_maker_answer.downcase.include?('maker')
   puts 'Leave empty - if the above conditions are not met'
   sleep 6
   print "\n"
-  puts "Following the first rule and the computer's goal being to guess the sequence, a feedback sequence of 4 Reds win the game"
+  puts "Following the first rule and the computer's goal being to guess the sequence, a feedback sequence of 4 Reds wins the game"
   sleep 4
   puts "\n"
   puts "\n"
@@ -65,6 +65,7 @@ if breaker_or_maker_answer.downcase.include?('maker')
     end
     board.show
     puts 'Provide feedback using this format: color 1,color 2,color 3,color 4 (repetition is allowed and the order does not matter)'
+    print "\n"
     while "The user doesn't include a valid feedback"
       your_feedback_array = ChangeUnit.get_and_rectify_input
       if your_feedback_array.all?{ |feedback_color| ChangeUnit.feedback_colors.include?(feedback_color) } 
